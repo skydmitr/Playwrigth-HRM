@@ -1,0 +1,19 @@
+{
+  "name": "pet-playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.2.0",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "typescript": "^5.5.3"
+  },
+  "private": true,
+  "dependencies": {
+    "faker": "^6.6.6"
+  }
+}

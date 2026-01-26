@@ -1,0 +1,23 @@
+import {test} from '@playwright/test'
+import {RegisterPage} from "../../pages/registerPage/registerPage";
+import {BuildersFactory} from "../../fixtures/data/builders/buldersCreds/buildersCreds";
+
+
+test.describe('Проверка авторизации', async () => {
+    let registerPage: RegisterPage;
+
+    test.beforeEach(async ({page}) => {
+        registerPage = new RegisterPage(page);
+        await registerPage.visit()
+    })
+
+         test('Неуспешная авторизация юзера', async () => {
+            const creds = new BuildersFactory()
+                .addCreds()
+                .generate()
+
+            await registerPage.expectRegisterAccount(creds.email, creds.password);
+             await registerPage.noExpectPage()
+        });
+
+    })
