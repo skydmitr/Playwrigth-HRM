@@ -85,5 +85,9 @@ export class AdminPageMenu extends NavigationPage{
         await test.step('Save Button', async ()=>{
             await this.saveButton.click()
         })
+
+        await test.step('Expect notification', async ()=>{
+            expect(this.page.getByText('SuccessSuccessfully Saved×'))
+        })
     }
 }
