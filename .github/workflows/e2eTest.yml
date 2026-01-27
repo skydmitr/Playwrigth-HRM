@@ -81,7 +81,6 @@ jobs:
             ⏭️ Skipped: `${{ steps.results.outputs.skipped }}`
             
             🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            🔗 Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
 
