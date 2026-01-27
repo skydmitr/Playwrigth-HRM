@@ -31,8 +31,19 @@ jobs:
       - name: Run tests
         id: test
         run: | 
-          npm run test --reporter=junit
           npm test --reporter=json > test-results.json
+          
+      - name: Parse Playwright results
+        id: results
+        if: always()
+        run: |
+            PASSED=$(jq '[.. | objects | select(.status? == "passed")] | length' test-results.json)
+            FAILED=$(jq '[.. | objects | select(.status? == "failed")] | length' test-results.json)
+            SKIPPED=$(jq '[.. | objects | select(.status? == "skipped")] | length' test-results.json)
+            
+            echo "passed=$PASSED" >> $GITHUB_OUTPUT
+            echo "failed=$FAILED" >> $GITHUB_OUTPUT
+            echo "skipped=$SKIPPED" >> $GITHUB_OUTPUT
 
       - name: Send Telegram Notification 🎉
         if: always()
@@ -40,16 +51,19 @@ jobs:
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          format: markdown
           message: |
-            🚀 Playwright Тесты ${{ job.status }}**
+            🚀 *Playwright E2E Tests*
             
-            📊 Проект: ${{ github.repository }}
-            🔧 Бранч: ${{ github.ref_name }}
-            👤 Автор: ${{ github.actor }}
-            📅 Коммит: ${{ github.sha }}
+            📦 *Проект:* `${{ github.repository }}`
+            🔧 *Бранч:* `${{ github.ref_name }}`
+            👤 *Автор:* `${{ github.actor }}`
+            📅 *Коммит:* `${{ github.sha }}`
             
-            📈 Тесты: Passed: ${{ steps.test.outputs.tests }} | Failed: ${{ steps.test.outputs.failures }}
-            ⏱️ Время: ${{ steps.test.outputs.duration }}
+            📊 *Результаты:*
+            ✅ Passed: `${{ steps.results.outputs.passed }}`
+            ❌ Failed: `${{ steps.results.outputs.failed }}`
+            ⏭️ Skipped: `${{ steps.results.outputs.skipped }}`
             
             🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
         env:
