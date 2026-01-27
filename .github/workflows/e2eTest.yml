@@ -35,8 +35,8 @@ jobs:
         if: always()
         uses: appleboy/telegram-action@master
         with:
-          bot_token: ${{ secrets.TELEGRAM_TOKEN }}
-          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          id: ${{ secrets.TELEGRAM_CHAT_ID }}
           message: |
             🚀 **Playwright Tests ${{ job.status }}**
             
