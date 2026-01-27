@@ -31,7 +31,7 @@ jobs:
       - name: Run tests
         id: test
         run: | 
-          npm test --reporter=json > test-results.json
+          npm test -- --reporter=json > test-results.json
           
       - name: Parse Playwright results
         id: results
