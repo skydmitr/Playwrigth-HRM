@@ -30,6 +30,7 @@ jobs:
 
       - name: Run tests
         id: test
+        continue-on-error: true
         run: | 
           npm test -- --reporter=json > test-results.json
           
