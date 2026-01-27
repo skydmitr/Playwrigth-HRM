@@ -29,4 +29,28 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run tests
-        run: npm run test
+        id: test
+        run: | 
+          npm run test --reporter=junit
+          npm test --reporter=json > test-results.json
+
+      - name: Send Telegram Notification 🎉
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            🚀 **Playwright Tests ${{ job.status }}**
+            
+            📊 **Проект**: ${{ github.repository }}
+            🔧 **Бранч**: ${{ github.ref_name }}
+            👤 **Автор**: ${{ github.actor }}
+            📅 **Коммит**: ${{ github.sha }}
+            
+            📈 **Тесты**: Passed: ${{ steps.test.outputs.tests }} | Failed: ${{ steps.test.outputs.failures }}
+            ⏱️ **Время**: ${{ steps.test.outputs.duration }}
+            
+            🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
