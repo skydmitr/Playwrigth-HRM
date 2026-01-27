@@ -33,7 +33,7 @@ jobs:
 
       - name: Send Telegram Notification 🎉
         if: always()
-        uses: appleboy/telegram-action@v0.1.7
+        uses: appleboy/telegram-action@master
         with:
           bot_token: ${{ secrets.TELEGRAM_TOKEN }}
           chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
