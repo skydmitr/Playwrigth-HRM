@@ -70,7 +70,7 @@ jobs:
           message: |
             🚀 *Playwright E2E Tests*
             
-            📦 *Проект:* `${{ github.repository }}`
+            📦 *Проект:* `${{ github.event.repository.name }}`
             🔧 *Бранч:* `${{ github.ref_name }}`
             👤 *Автор:* `${{ github.actor }}`
             📅 *Коммит:* `${{ github.sha }}`
