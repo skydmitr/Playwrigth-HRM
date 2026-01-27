@@ -39,13 +39,15 @@ jobs:
         id: results
         if: always()
         run: |
-            PASSED=$(jq '[.. | objects | select(.status? == "passed")] | length' test-results.json)
-            FAILED=$(jq '[.. | objects | select(.status? == "failed")] | length' test-results.json)
-            SKIPPED=$(jq '[.. | objects | select(.status? == "skipped")] | length' test-results.json)
-            
-            echo "passed=$PASSED" >> $GITHUB_OUTPUT
-            echo "failed=$FAILED" >> $GITHUB_OUTPUT
-            echo "skipped=$SKIPPED" >> $GITHUB_OUTPUT
+          PASSED=$(jq -r '.stats.expected // 0' test-results.json)
+          FAILED=$(jq -r '.stats.unexpected // 0' test-results.json)
+          SKIPPED=$(jq -r '.stats.skipped // 0' test-results.json)
+          FLAKY=$(jq -r '.stats.flaky // 0' test-results.json)
+
+          echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          echo "skipped=$SKIPPED" >> $GITHUB_OUTPUT
+          echo "flaky=$FLAKY" >> $GITHUB_OUTPUT
 
       - name: Generate Allure report
         if: always()
