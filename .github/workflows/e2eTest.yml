@@ -30,3 +30,24 @@ jobs:
 
       - name: Run tests
         run: npm run test
+
+      - name: Send Telegram Notification 🎉
+        if: always()
+        uses: appleboy/telegram-action@v0.1.7
+        with:
+          bot_token: ${{ secrets.TELEGRAM_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            🚀 **Playwright Tests ${{ job.status }}**
+            
+            📊 **Проект**: ${{ github.repository }}
+            🔧 **Бранч**: ${{ github.ref_name }}
+            👤 **Автор**: ${{ github.actor }}
+            📅 **Коммит**: ${{ github.sha }}
+            
+            📈 **Тесты**: Passed: ${{ steps.test.outputs.tests }} | Failed: ${{ steps.test.outputs.failures }}
+            ⏱️ **Время**: ${{ steps.test.outputs.duration }}
+            
+            🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
