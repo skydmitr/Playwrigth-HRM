@@ -39,7 +39,7 @@ jobs:
         uses: appleboy/telegram-action@master
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
           message: |
             🚀 **Playwright Tests ${{ job.status }}**
             
