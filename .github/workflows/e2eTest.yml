@@ -31,8 +31,8 @@ jobs:
       - name: Run tests
         id: test
         continue-on-error: true
-        run: | 
-          npm test -- --reporter=json > test-results.json
+        run: |
+          npx playwright test --reporter=json > test-results.json
           
       - name: Parse Playwright results
         id: results
