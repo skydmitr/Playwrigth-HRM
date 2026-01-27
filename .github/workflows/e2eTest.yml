@@ -29,7 +29,10 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run tests
-        run: npm run test
+        id: test
+        run: | 
+          npm run test --reporter=junit
+          npm test --reporter=json > test-results.json
 
       - name: Send Telegram Notification 🎉
         if: always()
