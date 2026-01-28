@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build project
-        run: npm run build
-
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
@@ -35,9 +32,8 @@ jobs:
         id: test
         continue-on-error: true
         run: |
-          PLAYWRIGHT_JSON_OUTPUT_NAME=test-results.json npx playwright test --reporter=json, html
-          ls -la
-          
+          PLAYWRIGHT_JSON_OUTPUT_NAME=test-results.json npx playwright test --reporter=json,html,list
+
       - name: Parse Playwright results
         id: results
         if: always()
@@ -46,18 +42,27 @@ jobs:
           FAILED=$(jq -r '.stats.unexpected // 0' test-results.json)
           SKIPPED=$(jq -r '.stats.skipped // 0' test-results.json)
           FLAKY=$(jq -r '.stats.flaky // 0' test-results.json)
-
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
           echo "skipped=$SKIPPED" >> $GITHUB_OUTPUT
           echo "flaky=$FLAKY" >> $GITHUB_OUTPUT
 
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            test-results.json
+            playwright-report/
+          retention-days: 30
+
       - name: Generate Allure report
         if: always()
         run: |
-          npx allure generate allure-results --clean -o allure-report
+          npx allure-playwright generate test-results.json -o allure-report --clean  # из JSON → Allure!
 
-      - name: Upload Allure report (artifact)
+      - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -67,25 +72,22 @@ jobs:
 
       - name: Send Telegram Notification 🎉
         if: always()
-        uses: appleboy/telegram-action@master
+        uses: appleboy/telegram-action@v0.1.7
         with:
-          token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            🚀 *Playwright E2E Tests*
+            🚀 *Playwright E2E Tests* ${{ job.status }}
             
             📦 *Проект:* `${{ github.event.repository.name }}`
             🔧 *Бранч:* `${{ github.ref_name }}`
             👤 *Автор:* `${{ github.actor }}`
-            📅 *Коммит:* `${{ github.sha }}`
             
             📊 *Результаты:*
             ✅ Passed: `${{ steps.results.outputs.passed }}`
             ❌ Failed: `${{ steps.results.outputs.failed }}`
             ⏭️ Skipped: `${{ steps.results.outputs.skipped }}`
+            ⚡ Flaky: `${{ steps.results.outputs.flaky }}`
             
-            🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-
+            🔗 [Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
