@@ -32,7 +32,7 @@ jobs:
         id: test
         continue-on-error: true
         run: |
-          PLAYWRIGHT_JSON_OUTPUT_NAME=test-results.json npx playwright test --reporter=json
+          PLAYWRIGHT_JSON_OUTPUT_NAME=test-results.json npx playwright test --reporter=json, html
           ls -la
           
       - name: Parse Playwright results
