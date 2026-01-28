@@ -8,21 +8,27 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [
-      ['line'],
-      ['json', { outputFile: 'test-results.xml' }],
-      ['allure-playwright',
-          {
-              resultDir: './allure-result',
-              detail: true,
-              environmentInfo:{
-                  OS: process.platform,
-                  Node: process.version,
-                  Browser: 'chromium',
-              }
-          }
-      ]
-  ],
+    reporter: process.env.CI
+        ? [
+            ['list'],
+            ['json', { outputFile: 'test-results.json' }],
+            [
+                'allure-playwright',
+                {
+                    resultDir: 'allure-results',
+                    detail: true,
+                    environmentInfo: {
+                        OS: process.platform,
+                        Node: process.version,
+                        Browser: 'chromium',
+                    },
+                },
+            ],
+        ]
+        : [
+            ['line'],
+            ['html', { open: 'never' }],
+        ],
   use: {
     storageState: './storage/state.json',
     baseURL: process.env.HOSTNAME || 'https://opensource-demo.orangehrmlive.com', //TODO - подумать над process.env.HOSTNAME
