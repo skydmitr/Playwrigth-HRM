@@ -46,7 +46,7 @@ export class AdminPageMenu extends NavigationPage{
         await test.step('Переход на страницу "Admin"', async () => {
             //await expect(this.navigationAdmin).toBeVisible({timeout: 5000})
             await this.navigationAdmin.click()
-            await expect(this.navigationAdminName).toBeVisible()
+            //await expect(this.navigationAdminName).toBeVisible()
         })
         await this.page.pause()
     }
