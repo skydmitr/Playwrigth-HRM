@@ -41,51 +41,73 @@ export class AdminPageMenu extends NavigationPage{
         this.searchPanelAdminPage = this.page.getByRole('textbox')
     }
 
-    async addUser(creds: AdminMenuData){
+    async gotoUrl() {
         await this.page.goto('/')
-        await test.step('Переход на страницу "Admin"', async ()=> {
-            await expect(this.navigationAdmin).toBeVisible()
+        await test.step('Переход на страницу "Admin"', async () => {
+            //await expect(this.navigationAdmin).toBeVisible({timeout: 5000})
             await this.navigationAdmin.click()
             await expect(this.navigationAdminName).toBeVisible()
         })
+        await this.page.pause()
+    }
 
+    async visitPageCreateUser(){
         await test.step('Переход на страницу создания нового пользователя', async ()=>{
             await expect(this.addAdmin).toBeVisible()
             await this.addAdmin.click()
         })
+        await this.page.pause()
+    }
+
+    async userRole(role: string) {
         await test.step('Ввод User Role', async ()=>{
             await this.selectUserRole.click()
-            await this.page.getByRole('option', { name: `${creds.userRole}` }).click();
+            await this.page.getByRole('option', { name: `${role}` }).click();
         })
+        await this.page.pause()
+    }
 
+    async userStatus(status: string) {
         await test.step('Ввод Status', async ()=>{
             await this.selectUserRole.click()
-            await this.page.getByRole('option', { name: `${creds.status}` }).click();
+            await this.page.getByRole('option', { name: `${status}` }).click();
         })
+    }
 
+    async userEmployeeName(employeeName: string) {
         await test.step('Ввод Employee Name', async ()=>{
-            await this.employeeName.fill(creds.employeeName);
+            await this.employeeName.fill(employeeName);
             await this.page.waitForTimeout(5000)
-            const selectedUserList = this.page.getByRole('option', { name: `${creds.employeeName}`})
+            const selectedUserList = this.page.getByRole('option', { name: `${employeeName}`})
             await selectedUserList.nth(2).click({timeout: 5000})
         })
+    }
 
+    async userNameConfirm(userName: string) {
         await test.step('Username', async ()=>{
-            await this.userName.fill(creds.userName);
+            await this.userName.fill(userName);
         })
+    }
 
+    async userPassword(userPassword: string) {
         await test.step('Password', async ()=>{
-            await this.password.fill(creds.password);
+            await this.password.fill(userPassword);
         })
+    }
 
+    async confirmPassword(password: string) {
         await test.step('Confirm Password', async ()=>{
-            await this.passwordConfirm.fill(creds.password);
+            await this.passwordConfirm.fill(password);
         })
+    }
 
+    async saveButtonclick() {
         await test.step('Save Button', async ()=>{
             await this.saveButton.click()
         })
+    }
 
+    async expectNotofication() {
         await test.step('Expect notification', async ()=>{
             expect(this.page.getByText('SuccessSuccessfully Saved×'))
         })
