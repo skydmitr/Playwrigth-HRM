@@ -3,26 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "tsc"
+    "test": "playwright test",
+    "build": "tsc",
+    "allure:report": "allure generate allure-results -o allure-report --clean",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results",
+    "allure:ci": "npm run test && npm run allure:report && npm run allure:open"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.2.0",
     "@playwright/test": "^1.57.0",
     "@types/node": "^25.0.3",
-    "typescript": "^5.5.3"
-  },
-  "private": true,
-  "dependencies": {
-    "-": "^0.0.1",
-    "allure-commandline": "^2.36.0",
+    "typescript": "^5.5.3",
     "allure-playwright": "^3.4.5",
+    "allure-commandline": "^2.36.0"
+  },
+  "dependencies": {
     "faker": "^6.6.6"
   },
-  "scripts": {
-    "test": "playwright test",
-    "allure:report": "allure generate allure-results -o allure-report --clean",
-    "allure:open": "allure open allure-report",
-    "allure:serve": "allure serve allure-results",
-    "allure:ci": "npm run test && npm run allure:report && npm run allure:open"
-  }
+  "private": true
 }
