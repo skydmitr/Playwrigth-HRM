@@ -42,10 +42,12 @@ export class AdminPageMenu extends NavigationPage{
     }
 
     async gotoUrl() {
-        await this.page.goto('/')
         await test.step('Переход на страницу "Admin"', async () => {
+            await this.page.goto('/')
             //await expect(this.navigationAdmin).toBeVisible({timeout: 5000})
+            await this.page.pause()
             await this.navigationAdmin.click()
+            await this.page.pause()
             //await expect(this.navigationAdminName).toBeVisible()
         })
         await this.page.pause()
