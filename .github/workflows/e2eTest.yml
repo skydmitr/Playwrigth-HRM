@@ -32,7 +32,8 @@ jobs:
         id: test
         continue-on-error: true
         run: |
-          PLAYWRIGHT_JSON_OUTPUT_NAME=test-results.json npx playwright test --reporter=json,html,list
+          PLAYWRIGHT_JSON_OUTPUT_NAME=test-results.json npx playwright test --reporter=json, html, list
+          ls -la
 
       - name: Parse Playwright results
         id: results
@@ -42,27 +43,18 @@ jobs:
           FAILED=$(jq -r '.stats.unexpected // 0' test-results.json)
           SKIPPED=$(jq -r '.stats.skipped // 0' test-results.json)
           FLAKY=$(jq -r '.stats.flaky // 0' test-results.json)
+
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
           echo "skipped=$SKIPPED" >> $GITHUB_OUTPUT
           echo "flaky=$FLAKY" >> $GITHUB_OUTPUT
 
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: |
-            test-results.json
-            playwright-report/
-          retention-days: 30
-
       - name: Generate Allure report
         if: always()
         run: |
-          npx allure-playwright generate test-results.json -o allure-report --clean  # из JSON → Allure!
+          npx allure-playwright generate test-results.json -o allure-report --clean 
 
-      - name: Upload Allure report
+      - name: Upload Allure report (artifact)
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -72,22 +64,25 @@ jobs:
 
       - name: Send Telegram Notification 🎉
         if: always()
-        uses: appleboy/telegram-action@v0.1.7
+        uses: appleboy/telegram-action@master
         with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
           format: markdown
           message: |
-            🚀 *Playwright E2E Tests* ${{ job.status }}
+            🚀 *Playwright E2E Tests*
             
             📦 *Проект:* `${{ github.event.repository.name }}`
             🔧 *Бранч:* `${{ github.ref_name }}`
             👤 *Автор:* `${{ github.actor }}`
+            📅 *Коммит:* `${{ github.sha }}`
             
             📊 *Результаты:*
             ✅ Passed: `${{ steps.results.outputs.passed }}`
             ❌ Failed: `${{ steps.results.outputs.failed }}`
             ⏭️ Skipped: `${{ steps.results.outputs.skipped }}`
-            ⚡ Flaky: `${{ steps.results.outputs.flaky }}`
             
-            🔗 [Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+
