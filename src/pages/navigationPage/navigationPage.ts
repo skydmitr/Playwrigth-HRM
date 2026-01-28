@@ -108,7 +108,7 @@ export class NavigationPage {
     async smokeAdminMenu() {
 
         test.step('Проверка админ меню', async () => {
-            //await expect(this.navigationAdmin).toBeVisible()
+            await expect(this.navigationAdmin).toBeVisible({timeout: 60000})
             await this.navigationAdmin.click()
             // expect(this.navigationAdminName).toBeVisible()
         })
