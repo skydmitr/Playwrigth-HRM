@@ -39,7 +39,7 @@ jobs:
           ls -la
 
       - name: Parse Playwright JSON results
-        id: result
+        id: results
         if: always()
         run: |
           if [ ! -f test-results.json ]; then
