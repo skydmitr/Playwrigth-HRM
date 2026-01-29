@@ -47,7 +47,7 @@ export class AdminPageMenu extends NavigationPage{
             await expect(this.navigationAdmin).toBeVisible({timeout: 5000})
             //await this.page.pause()
             //await this.navigationAdmin.click()
-            await this.page.pause()
+            //await this.page.pause()
             //await expect(this.navigationAdminName).toBeVisible()
         })
     }
@@ -57,7 +57,7 @@ export class AdminPageMenu extends NavigationPage{
             await expect(this.addAdmin).toBeVisible()
             await this.addAdmin.click()
         })
-        await this.page.pause()
+        //await this.page.pause()
     }
 
     async userRole(role: string) {
@@ -65,7 +65,7 @@ export class AdminPageMenu extends NavigationPage{
             await this.selectUserRole.click()
             await this.page.getByRole('option', { name: `${role}` }).click();
         })
-        await this.page.pause()
+        //await this.page.pause()
     }
 
     async userStatus(status: string) {

@@ -16,7 +16,7 @@ test.describe('Создание админа', async () => {
 
     })
 
-    test('Создание админа', async ({ }) => {
+    test('Создание админа', async () => {
         let creds = new BuildersAdminMenu()
             .addCreds()
             .withUserRole()
