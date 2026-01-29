@@ -38,16 +38,8 @@ jobs:
           echo "📂 Files after test run:"
           ls -la
 
-      - name: Debug test-results.json
-        if: always()
-        run: |
-          ls -la
-          ls -la test-results.json || true
-
-      - name: Run Playwright tests (debug)
-        run: npx playwright test --reporter=list
-
       - name: Parse Playwright JSON results
+        id: result
         if: always()
         run: |
           if [ ! -f test-results.json ]; then
