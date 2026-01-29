@@ -34,7 +34,7 @@ jobs:
           CI: true
         run: |
           echo "▶️ Running Playwright tests"
-          npx playwright test --reporter=list,json
+          npx playwright test 
           echo "📂 Files after test run:"
           ls -la
 
