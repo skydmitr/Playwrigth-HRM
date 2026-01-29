@@ -72,23 +72,3 @@ npm test -- --headed --slow-mo=500
 # Allure после тестов
 npm run test:allure
 ```
-## 🔄 CI/CD (GitHub Actions)
-```bash
-# .github/workflows/test.yml
-- name: Generate Allure report
-  run: |
-    npx allure generate allure-results --clean -o public/
-- name: Upload Allure results
-  uses: actions/upload-artifact@v4
-  with: { path: public/ }
-```
-## Allure покажет:
-```bash
-📋 Все test.step() как шаги
-
-📸 Скриншот при ошибке
-
-🎥 Видео всего теста
-
-🔍 Trace Viewer (реплей действий)
-```

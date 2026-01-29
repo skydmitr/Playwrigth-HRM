@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc"
-  },
   "devDependencies": {
     "@faker-js/faker": "^10.2.0",
     "@playwright/test": "^1.57.0",
@@ -24,6 +21,7 @@
     "allure:report": "allure generate allure-results -o allure-report --clean",
     "allure:open": "allure open allure-report",
     "allure:serve": "allure serve allure-results",
-    "allure:ci": "npm run test && npm run allure:report && npm run allure:open"
+    "allure:ci": "npm run test && npm run allure:report && npm run allure:open",
+    "build": "tsc"
   }
 }

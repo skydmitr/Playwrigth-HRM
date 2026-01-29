@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          check-latest: true
 
       - name: Install dependencies
         run: npm ci
@@ -28,15 +27,14 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run tests
+      - name: Run Playwright tests
         id: test
         continue-on-error: true
-        run: |
-          PLAYWRIGHT_JSON_OUTPUT_NAME=test-results.json npx playwright test --reporter=json
-          ls -la
-          
-      - name: Parse Playwright results
-        id: results
+        env:
+          CI: true
+        run: npx playwright test
+
+      - name: Parse Playwright JSON results
         if: always()
         run: |
           PASSED=$(jq -r '.stats.expected // 0' test-results.json)
@@ -51,15 +49,14 @@ jobs:
 
       - name: Generate Allure report
         if: always()
-        run: |
-          npx allure generate allure-results --clean -o allure-report
+        run: npx allure generate allure-results -o allure-report --clean
 
-      - name: Upload Allure report (artifact)
+      - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: allure-report/
+          path: allure-report
           retention-days: 7
 
       - name: Send Telegram Notification 🎉
@@ -71,18 +68,15 @@ jobs:
           format: markdown
           message: |
             🚀 *Playwright E2E Tests*
-            
+
             📦 *Проект:* `${{ github.event.repository.name }}`
             🔧 *Бранч:* `${{ github.ref_name }}`
             👤 *Автор:* `${{ github.actor }}`
             📅 *Коммит:* `${{ github.sha }}`
-            
+
             📊 *Результаты:*
             ✅ Passed: `${{ steps.results.outputs.passed }}`
             ❌ Failed: `${{ steps.results.outputs.failed }}`
             ⏭️ Skipped: `${{ steps.results.outputs.skipped }}`
-            
-            🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
 
+            🔗 [View in GitHub](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
