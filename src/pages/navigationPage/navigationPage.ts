@@ -46,7 +46,7 @@ export class NavigationPage {
         this.navigationBuzz = this.page.getByRole('link', {name: 'Buzz'})
 
         this.navigationAdminName = this.page.getByRole('heading', {name: 'Admin'})
-        this.navigationPIMName = this.page.getByRole('heading', {name: 'PIM'})
+        this.navigationPIMName = this.page.getByRole('heading', { name: 'PIM' })
         this.navigationLeaveName = this.page.getByRole('heading', {name: /^Leave$/})
         this.navigationTimeName = this.page.getByRole('heading', {name: /^Time$/})
         this.navigationRecruitmentName = this.page.getByRole('heading', {name: 'Recruitment'})
@@ -67,7 +67,9 @@ export class NavigationPage {
 
             await expect(this.navigationPIM).toBeVisible()
             await this.navigationPIM.click()
+            await this.page.pause()
             await expect(this.navigationPIMName).toBeVisible()
+            await this.page.pause()
 
             await expect(this.navigationLeave).toBeVisible()
             await this.navigationLeave.click()

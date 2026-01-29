@@ -14,7 +14,7 @@ test.describe('Проверка авторизации', async () => {
     })
 
         test('Неуспешная авторизация юзера', async ({ browser }) => {
-            const context = await browser.newContext({ storageState: undefined }); // чистый контекст[web:181][web:186]
+            const context = await browser.newContext({ storageState: undefined });
             const page = await context.newPage();
 
             const registerPage = new RegisterPage(page);
