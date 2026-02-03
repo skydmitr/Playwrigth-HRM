@@ -17,6 +17,7 @@ test.describe('Оставление комментария', async() => {
 
         await buzzPage.visit()
         await buzzPage.postMessage(mes.message)
+        await buzzPage.expectPostMessage(mes.message)
 
     })
 

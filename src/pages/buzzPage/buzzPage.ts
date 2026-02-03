@@ -11,9 +11,9 @@ export class BuzzPage{
     constructor(page: Page) {
         this.page = page
         this.textInput = this.page.getByRole('textbox', { name: "What's on your mind?"})
-        this.postButton = this.page.getByRole('button', { name: 'Post' })
+        this.postButton = this.page.getByRole('button', { name: 'Post', exact: true })
         this.textPage = this.page.getByText('Buzz Newsfeed')
-        this.navigationBuzzName = this.page.getByRole('heading', {name: 'Buzz'})
+        this.navigationBuzzName = this.page.getByRole('link', {name: 'Buzz'})
     }
 
     async visit(){
@@ -26,8 +26,15 @@ export class BuzzPage{
 
     async postMessage(messageText: string){
         await test.step('Написание текста в поле', async () => {
+            await this.textInput.click()
             await this.textInput.fill(messageText)
-            await expect(this.textInput).toHaveText(messageText)
+            await expect(this.textInput).toHaveValue(messageText)
+            await this.postButton.click()
+        })
+    }
+    async expectPostMessage(messageText: string){
+        await test.step('Проверка оставленного комментария', async(done) => {
+            await expect(this.page.getByText(messageText)).toBeVisible()
         })
     }
 }
