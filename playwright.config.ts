@@ -32,7 +32,7 @@ export default defineConfig({
   use: {
     storageState: './storage/state.json',
     baseURL: process.env.HOSTNAME || 'https://opensource-demo.orangehrmlive.com', //TODO - подумать над process.env.HOSTNAME
-    headless: true, //Отладка с браузером
+    headless: process.env.CI ? true : false, //Отладка с браузером
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
