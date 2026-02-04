@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import {BuzzPage} from "../../pages/buzzPage/buzzPage";
 import {BuildersMessage} from "../../fixtures/data/builders/buildersMessage/buildersMessage";
 
-test.describe('Оставление комментария', async() => {
+test.describe('Оставление комментария', {tag: '@ui'}, async() => {
     let buzzPage: BuzzPage
 
     let mes = new BuildersMessage()
