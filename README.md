@@ -28,6 +28,7 @@ npm ci
 npm test                    # обычные тесты
 npm run test:allure         # тесты + Allure отчёт (откроется автоматически!)
 npx allure serve allure-results  # мгновенный Allure
+npx playwright test --grep '@ui' # запуск тестов по тегу
 ```
 ###📁 Структура проекта
 ```bash
