@@ -20,7 +20,7 @@ test.describe('Оставление комментария', {tag: '@ui'}, async
             await buzzPage.postMessage(mes.message)
         })
 
-        await test.step('Gроверяем его наличие', async() => {
+        await test.step('Проверяем его наличие', async() => {
             await buzzPage.expectPostMessage(mes.message)
         })
 
