@@ -5,20 +5,28 @@ import {BuildersMessage} from "../../fixtures/data/builders/buildersMessage/buil
 test.describe('Оставление комментария', async() => {
     let buzzPage: BuzzPage
 
+    let mes = new BuildersMessage()
+        .addMessage()
+        .generate()
+
     test.beforeEach(async ({page}) => {
         buzzPage = new BuzzPage(page)
-
+        await buzzPage.visit()
     })
 
     test('Оставляем комментарий и проверяем его наличие', async() =>{
-        let mes = new BuildersMessage()
-            .addMessage()
-            .generate()
 
-        await buzzPage.visit()
-        await buzzPage.postMessage(mes.message)
-        await buzzPage.expectPostMessage(mes.message)
+        await test.step('Оставляем комментарий', async() => {
+            await buzzPage.postMessage(mes.message)
+        })
+
+        await test.step('Gроверяем его наличие', async() => {
+            await buzzPage.expectPostMessage(mes.message)
+        })
+
+        await test.step('Удаление комментария и проверка его отсутсвия', async() => {
+            await buzzPage.exdeletePost(mes.message)
+        })
 
     })
-
 })
