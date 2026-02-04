@@ -3,7 +3,7 @@ import {RegisterPage} from "../../pages/registerPage/registerPage";
 import {BuildersFactory} from "../../fixtures/data/builders/buldersCreds/buildersCreds";
 
 
-test.describe('Проверка авторизации', async () => {
+test.describe('Проверка авторизации', {tag: '@ui'}, async () => {
     let registerPage: RegisterPage;
 
 

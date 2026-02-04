@@ -4,7 +4,7 @@ import {RegisterPage} from "../../pages/registerPage/registerPage";
 
 
 
-test.describe('Проверка авторизации', async () => {
+test.describe('Проверка авторизации', {tag: '@ui'}, async () => {
     let navigationPage: NavigationPage;
 
 

@@ -6,7 +6,7 @@ import {ad} from "@faker-js/faker/dist/airline-CWrCIUHH";
 
 
 
-test.describe('Создание админа', async () => {
+test.describe('Создание админа', {tag: '@ui'}, async () => {
     let adminPageMenu: AdminPageMenu;
     let navigationPage: NavigationPage;
 
