@@ -59,11 +59,8 @@ export class BuzzPage{
     }
     async expectPostMessage(messageText: string){
         await test.step('Проверка оставленного комментария', async() => {
-            await this.page.pause()
             const latestPost = this.page.getByText(messageText).first()
-           await this.page.pause()
             await expect(latestPost).toBeVisible({timeout: 5000})
-            await this.page.pause()
         })
     }
 
