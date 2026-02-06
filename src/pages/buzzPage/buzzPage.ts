@@ -57,6 +57,7 @@ export class BuzzPage{
             await this.postButton.click()
         })
     }
+
     async expectPostMessage(messageText: string){
         await test.step('Проверка оставленного комментария', async() => {
             const latestPost = this.page.getByText(messageText).first()
@@ -86,7 +87,7 @@ export class BuzzPage{
             await expect(this.buttonYes).toBeVisible()
             //await expect(this.buttonExit).toBeVisible()
             await this.buttonYes.click()
-            const latestPost = this.page.getByText(messageText).last()
+            const latestPost = this.page.getByText(messageText).first()
             await expect(latestPost).not.toBeVisible({ timeout: 5000 })
         })
     }
