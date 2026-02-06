@@ -14,7 +14,7 @@ test.describe('Оставление комментария', {tag: '@ui'}, async
         await buzzPage.visit()
     })
 
-    test('Оставляем комментарий и проверяем его наличие', async() =>{
+    test('Оставляем комментарий, проверяем его наличие, редактируем', async() =>{
 
         await test.step('Оставляем комментарий', async() => {
             await buzzPage.postMessage(mes.message)
@@ -24,9 +24,21 @@ test.describe('Оставление комментария', {tag: '@ui'}, async
             await buzzPage.expectPostMessage(mes.message)
         })
 
+        await test.step('Редактирование комментария', async() => {
+
+            await buzzPage.editPostMes(mes.message + mes.message)
+
+        })
+
+        // await test.step('Проверка отредактированного комментария', async() => {
+        //
+        // })
+
+    })
+
+    test.afterEach('Удаление комментария', async () => {
         await test.step('Удаление комментария и проверка его отсутсвия', async() => {
             await buzzPage.exdeletePost(mes.message)
         })
-
     })
 })

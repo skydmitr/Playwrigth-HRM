@@ -15,7 +15,10 @@ export class BuzzPage{
     readonly buttonNo: Locator
     readonly buttonYes: Locator
     readonly buttonExit: Locator
+    readonly editPostText: Locator
     readonly editPost: Locator
+    readonly textDialog: Locator
+    readonly dialogPostButton: Locator
 
 
     constructor(page: Page) {
@@ -27,13 +30,15 @@ export class BuzzPage{
 
         this.opensymbolMenu = this.page.getByRole('button').filter({ hasText: /^$/ }).nth(2)
         this.deletePost = this.page.getByRole('listitem').filter({ hasText: /^Delete Post$/ })
+        this.editPost = this.page.getByRole('listitem').filter({ hasText: /^Edit Post$/ })
         this.h1TextMenu = this.page.getByText('Are you Sure?')
         this.h2Textmenu = this.page.getByText('The selected item will be')
         this.buttonNo = this.page.getByRole('button', { name: 'No, Cancel' })
         this.buttonYes = this.page.getByRole('button', { name: ' Yes, Delete' })
         this.buttonExit = this.page.getByRole('button', { name: '×' })
-        this.editPost = this.page.getByText('Edit Post')
-
+        this.editPostText = this.page.getByText('Edit Post')
+        this.textDialog = this.page.getByRole('dialog').getByRole('textbox')
+        this.dialogPostButton = this.page.getByRole('dialog').getByRole('button', { name: 'Post' })
     }
 
     async visit(){
@@ -52,11 +57,23 @@ export class BuzzPage{
             await this.postButton.click()
         })
     }
+
     async expectPostMessage(messageText: string){
         await test.step('Проверка оставленного комментария', async() => {
             const latestPost = this.page.getByText(messageText).first()
             await expect(latestPost).toBeVisible({timeout: 5000})
         })
+    }
+
+    async editPostMes(messageText: string){
+        await test.step('Редактирование комментария', async() => {
+            await this.opensymbolMenu.click()
+            await expect(this.editPost).toBeVisible()
+            await this.editPost.click()
+            await this.textDialog.fill(messageText, {timeout: 5000})
+            await expect(this.textDialog).toHaveValue(messageText)
+            await expect(this.dialogPostButton).toBeVisible()
+            await this.dialogPostButton.click()})
     }
 
     async exdeletePost(messageText: string){
@@ -70,8 +87,9 @@ export class BuzzPage{
             await expect(this.buttonYes).toBeVisible()
             //await expect(this.buttonExit).toBeVisible()
             await this.buttonYes.click()
-            const latestPost = this.page.getByText(messageText).last()
+            const latestPost = this.page.getByText(messageText).first()
             await expect(latestPost).not.toBeVisible({ timeout: 5000 })
         })
     }
+
 }
