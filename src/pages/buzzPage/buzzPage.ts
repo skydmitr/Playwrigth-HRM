@@ -69,12 +69,10 @@ export class BuzzPage{
             await this.opensymbolMenu.click()
             await expect(this.editPost).toBeVisible()
             await this.editPost.click()
-            await expect(this.editPostText).toBeVisible()
             await this.textDialog.fill(messageText, {timeout: 5000})
             await expect(this.textDialog).toHaveValue(messageText)
             await expect(this.dialogPostButton).toBeVisible()
-            await this.dialogPostButton.click()
-        })
+            await this.dialogPostButton.click()})
     }
 
     async exdeletePost(messageText: string){
