@@ -1,24 +1,20 @@
 import {test} from '@playwright/test'
 import {RegisterPage} from "../../pages/registerPage/registerPage";
 import {BuildersFactory} from "../../fixtures/data/builders/buldersCreds/buildersCreds";
+import {RegisterActions} from "../../actions/registerAction/register.actions";
 
 
 test.describe('Проверка авторизации', {tag: '@ui'}, async () => {
-    let registerPage: RegisterPage;
-
+    let registerPage: RegisterActions;
 
     test.beforeEach(async ({page}) => {
 
-        registerPage = new RegisterPage(page);
+        registerPage = new RegisterActions(page);
         await registerPage.visit()
     })
 
         test('Неуспешная авторизация юзера', async ({ browser }) => {
             const context = await browser.newContext({ storageState: undefined });
-            const page = await context.newPage();
-
-            const registerPage = new RegisterPage(page);
-            await registerPage.visit();
 
             const creds = new BuildersFactory()
                 .addCreds()
@@ -29,6 +25,5 @@ test.describe('Проверка авторизации', {tag: '@ui'}, async () 
 
             await context.close();
         });
-
 
     })

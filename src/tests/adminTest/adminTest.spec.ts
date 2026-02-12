@@ -4,16 +4,17 @@ import {BuildersAdminMenu} from "../../fixtures/data/builders/buildersAdminMenu/
 import {NavigationPage} from "../../pages/navigationPage/navigationPage";
 import {ad} from "@faker-js/faker/dist/airline-CWrCIUHH";
 import {AdminActions} from "../../actions/adminActions/admin.actions";
+import {NavigationActions} from "../../actions/navigationActions/navigation.actions";
 
 
 
 test.describe('Создание админа', {tag: '@ui'}, async () => {
     let adminPageMenu: AdminActions;
-    let navigationPage: NavigationPage;
+    let navigationPage: NavigationActions;
 
     test.beforeEach(async ({page}) => {
         adminPageMenu = new AdminActions(page);
-        navigationPage = new NavigationPage(page);
+        navigationPage = new NavigationActions(page);
 
     })
 

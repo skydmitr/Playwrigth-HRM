@@ -18,37 +18,4 @@ export class RegisterPage {
         this.invalidCreds = this.page.locator('//*[*=\'Invalid credentials\']').nth(1)
     }
 
-    async visit(){
-        await test.step('Переход на страницу регистрации', async () => {
-            await this.page.goto('/')
-        })
-    }
-
-    async gotoHome(site: string){
-            await this.page.goto(site)
-    }
-
-    async expectRegisterAccount(nameInput: string, passwordInput: string){
-          await expect(this.nameInput).toBeVisible() //Проверка видимости поля имя
-            await this.nameInput.fill(nameInput)
-
-          await expect(this.passwordInput).toBeVisible() //password
-            await this.passwordInput.fill(passwordInput)
-
-          await expect(this.buttonEntrance).toBeVisible() // кнопка
-            await this.buttonEntrance.click()
-        }
-
-    async expectPage(){
-        await test.step('Успешная проверка входа', async () => {
-            await expect(this.dashBoard).toBeVisible()
-        })
-    }
-
-    async noExpectPage(){
-        await test.step('Неуспешная проверка входа', async () => {
-            await expect(this.invalidCreds).toBeVisible()
-        })
-    }
-
 }
