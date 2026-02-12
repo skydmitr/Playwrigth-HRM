@@ -65,6 +65,10 @@ export class NavigationPage {
 
         await test.step('Проврка наличия меню', async () => {
 
+            // await expect(this.navigationPIM).toBeVisible()
+            // await this.navigationPIM.click()
+            // await expect(this.navigationPIMName).toBeVisible()
+
             await expect(this.navigationLeave).toBeVisible()
             await this.navigationLeave.click()
             await expect(this.navigationLeaveName).toBeVisible()
