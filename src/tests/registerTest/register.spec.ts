@@ -15,6 +15,7 @@ test.describe('Проверка авторизации', {tag: '@ui'}, async () 
 
         test('Неуспешная авторизация юзера', async ({ browser }) => {
             const context = await browser.newContext({ storageState: undefined });
+            const page = await context.newPage();
 
             const creds = new BuildersFactory()
                 .addCreds()
