@@ -27,6 +27,7 @@ test.describe('Создание админа', {tag: '@ui'}, async () => {
             .generate()
 
         await navigationPage.smokeAdminMenu()
+        await adminPageMenu.gotoUrl()
         await adminPageMenu.visitPageCreateUser()
         await adminPageMenu.userRole(creds.userRole)
         await adminPageMenu.userStatus(creds.status)
