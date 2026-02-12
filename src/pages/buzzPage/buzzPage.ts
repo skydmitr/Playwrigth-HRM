@@ -1,4 +1,5 @@
 import {expect, Locator, Page, test} from '@playwright/test'
+import {vitest} from "globals";
 
 export class BuzzPage{
 
