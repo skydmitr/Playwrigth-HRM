@@ -5,17 +5,16 @@ import {RegisterActions} from "../../actions/registerAction/register.actions";
 
 
 test.describe('Проверка авторизации', {tag: '@ui'}, async () => {
-    let registerPage: RegisterActions;
-
-    test.beforeEach(async ({page}) => {
-
-        registerPage = new RegisterActions(page);
-        await registerPage.visit()
-    })
 
         test('Неуспешная авторизация юзера', async ({ browser }) => {
-            const context = await browser.newContext({ storageState: undefined });
+            const context = await browser.newContext({
+                storageState: undefined,
+                ignoreHTTPSErrors: true
+            });
             const page = await context.newPage();
+
+            const registerPage = new RegisterActions(page);
+            await registerPage.visit();
 
             const creds = new BuildersFactory()
                 .addCreds()
