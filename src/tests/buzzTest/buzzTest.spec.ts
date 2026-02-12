@@ -1,16 +1,17 @@
 import { test } from '@playwright/test'
 import {BuzzPage} from "../../pages/buzzPage/buzzPage";
 import {BuildersMessage} from "../../fixtures/data/builders/buildersMessage/buildersMessage";
+import {BuzzActions} from "../../actions/buzzActions/buzz.actions";
 
 test.describe('Оставление комментария', {tag: '@ui'}, async() => {
-    let buzzPage: BuzzPage
+    let buzzPage: BuzzActions
 
     let mes = new BuildersMessage()
         .addMessage()
         .generate()
 
     test.beforeEach(async ({page}) => {
-        buzzPage = new BuzzPage(page)
+        buzzPage = new BuzzActions(page)
         await buzzPage.visit()
     })
 
@@ -29,10 +30,6 @@ test.describe('Оставление комментария', {tag: '@ui'}, async
             await buzzPage.editPostMes(mes.message + mes.message)
 
         })
-
-        // await test.step('Проверка отредактированного комментария', async() => {
-        //
-        // })
 
     })
 

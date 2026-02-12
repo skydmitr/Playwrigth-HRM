@@ -17,10 +17,10 @@ export class BuildersFactory{
     }
 
     generate(){
-       return {
-           email: this.email,
-           password: this.password,
-       }
+        return {
+            email: this.email,
+            password: this.password,
+        }
     }
 
 }

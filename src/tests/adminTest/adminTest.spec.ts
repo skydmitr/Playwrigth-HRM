@@ -1,18 +1,20 @@
 import {test} from '@playwright/test'
-import {AdminPageMenu} from "../../pages/adminPageMenu/adminPageMenu";
+import {AdminPageMenu} from "../../pages/adminPage/adminPageMenu";
 import {BuildersAdminMenu} from "../../fixtures/data/builders/buildersAdminMenu/buildersAdminMenu";
 import {NavigationPage} from "../../pages/navigationPage/navigationPage";
 import {ad} from "@faker-js/faker/dist/airline-CWrCIUHH";
+import {AdminActions} from "../../actions/adminActions/admin.actions";
+import {NavigationActions} from "../../actions/navigationActions/navigation.actions";
 
 
 
 test.describe('Создание админа', {tag: '@ui'}, async () => {
-    let adminPageMenu: AdminPageMenu;
-    let navigationPage: NavigationPage;
+    let adminPageMenu: AdminActions;
+    let navigationPage: NavigationActions;
 
     test.beforeEach(async ({page}) => {
-        adminPageMenu = new AdminPageMenu(page);
-        navigationPage = new NavigationPage(page);
+        adminPageMenu = new AdminActions(page);
+        navigationPage = new NavigationActions(page);
 
     })
 
